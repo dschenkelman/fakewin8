@@ -12,7 +12,7 @@
         {
             if (args.Length != 2)
             {
-                Console.WriteLine("Provide path to .dll and output directory parameters.");
+                Console.WriteLine("Usage FakeWin8.Generator.Console.exe <dllPath> <outputDir>");
                 return;
             }
 
