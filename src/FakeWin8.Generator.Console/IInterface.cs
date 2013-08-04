@@ -4,12 +4,10 @@
 
     public interface IInterface
     {
-        void Test1();
+        void Method1();
 
-        string Test2(int param);
+        string Method2(int param);
 
-        int Test3(string s);
-
-        AbstractClass Test4(Tuple<int, int> t, int i, string s);
+        int Method3(Tuple<int, int> t, int i, string s);
     }
 }

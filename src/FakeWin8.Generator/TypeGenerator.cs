@@ -24,7 +24,7 @@
             builder.Append(this.type.Name.Substring(0, this.type.Name.IndexOf("`", StringComparison.Ordinal)));
             builder.Append("<");
 
-            builder.Append(string.Join(",",  this.type.GetGenericArguments().Select(t => new TypeGenerator(t).Generate()).ToArray()));
+            builder.Append(string.Join(", ",  this.type.GetGenericArguments().Select(t => new TypeGenerator(t).Generate()).ToArray()));
 
             builder.Append(">");
 

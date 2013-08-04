@@ -34,13 +34,13 @@
                 builder.Append("<");
             }
 
-            builder.Append(string.Join(",", parameters.Select(p => new TypeGenerator(p.ParameterType).Generate()).ToArray()));
+            builder.Append(string.Join(", ", parameters.Select(p => new TypeGenerator(p.ParameterType).Generate()).ToArray()));
 
             if (!returnsVoid)
             {
                 if (parameters.Length != 0)
                 {
-                    builder.Append(",");
+                    builder.Append(", ");
                 }
 
                 builder.Append(new TypeGenerator(returnType).Generate());

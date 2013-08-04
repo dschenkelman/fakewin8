@@ -32,7 +32,7 @@
 
             builder.Append(
                 string.Join(
-                    ",",
+                    ", ",
                     parameters.Select(
                         p => string.Format("{0} {1}", new TypeGenerator(p.ParameterType).Generate(), p.Name)).ToArray()));
 
@@ -44,6 +44,11 @@
             var returnsVoid = this.methodInfo.ReturnType == typeof(void);
 
             var methodKind = returnsVoid ? "Action" : "Func";
+
+            if (!returnsVoid)
+            {
+                builder.Append("return ");
+            }
 
             builder.Append("this.");
             builder.Append(this.methodInfo.Name);

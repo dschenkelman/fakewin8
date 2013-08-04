@@ -16,12 +16,19 @@
             var typeGenerator = new TypeGenerator(this.type);
             string trimmedName = typeGenerator.Generate();
 
-            if (this.type.IsInterface && this.type.Name.StartsWith("I"))
-            {
-                trimmedName = trimmedName.Substring(1);
-            }
+            trimmedName = GetFakeTypeName(this.type, trimmedName);
 
             return string.Format("public class Fake{0} : {1}", trimmedName, typeGenerator.Generate());
+        }
+
+        public static string GetFakeTypeName(Type type, string representation)
+        {
+            if (type.IsInterface && type.Name.StartsWith("I"))
+            {
+                return representation.Substring(1);
+            }
+
+            return representation;
         }
     }
 }

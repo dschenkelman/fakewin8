@@ -1,6 +1,7 @@
 ﻿namespace FakeWin8.Generator.Console
 {
     using System;
+    using System.IO;
     using System.Reflection;
 
     using FakeWin8.Generator.Core;
@@ -9,35 +10,43 @@
     {
         static void Main(string[] args)
         {
-            Assembly assembly = typeof(Program).Assembly;
+            if (args.Length != 2)
+            {
+                Console.WriteLine("Provide path to .dll and output directory parameters.");
+                return;
+            }
+
+            var dllPath = args[0];
+            var outputDirectory = args[1];
+
+            if (!File.Exists(dllPath))
+            {
+                Console.WriteLine("Assembly could not be found.");
+                return;
+            }
+
+            if (!Directory.Exists(outputDirectory))
+            {
+                Directory.CreateDirectory(outputDirectory);
+                Console.WriteLine("Created output directory...");
+                return;
+            }
+
+            Assembly assembly = Assembly.LoadFrom(dllPath);
 
             var types = new AssemblyExplorer(assembly).GetFakeableTypes();
 
             foreach (var type in types)
             {
-                System.Console.WriteLine(new FakeTypeSignatureGenerator(type).Generate());
-                System.Console.WriteLine("{");
+                var fileContent = new ClassGenerator(type).Generate();
 
-                var methods = new TypeExplorer(type).GetFakeableMethods();
+                var fileName = string.Format("Fake{0}.cs", FakeTypeSignatureGenerator.GetFakeTypeName(type, type.Name));
 
-                foreach (var methodInfo in methods)
-                {
-                    var property = new FakeMethodPropertyGenerator(methodInfo).Generate();
-                    System.Console.WriteLine(property);
-                    System.Console.WriteLine(Environment.NewLine);
-                }
+                var outFile = Path.Combine(outputDirectory, fileName);
+                File.WriteAllText(outFile, fileContent);
 
-                foreach (var methodInfo in methods)
-                {
-                    var property = new FakeMethodImplementationGenerator(methodInfo).Generate();
-                    System.Console.WriteLine(property);
-                    System.Console.WriteLine(Environment.NewLine);
-                }
-
-                System.Console.WriteLine("}");
+                Console.WriteLine("Wrote file {0}", outFile);
             }
-
-            System.Console.ReadLine();
         }
     }
 }

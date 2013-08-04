@@ -23,6 +23,7 @@
                 case "Int16": return "short";
                 case "UInt16": return "ushort";
                 case "String": return "string";
+                case "Void": return "void";
                 default: return type.Name;
             }
         }

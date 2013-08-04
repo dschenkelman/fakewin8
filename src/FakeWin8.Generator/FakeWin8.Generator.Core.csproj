@@ -35,6 +35,7 @@
   <ItemGroup>
     <Compile Include="AliasMappings.cs" />
     <Compile Include="AssemblyExplorer.cs" />
+    <Compile Include="ClassGenerator.cs" />
     <Compile Include="FakeMethodImplementationGenerator.cs" />
     <Compile Include="FakeMethodPropertyGenerator.cs" />
     <Compile Include="FakeTypeSignatureGenerator.cs" />
