@@ -25,7 +25,7 @@ public interface INavigationService
 }
 ```
 
-The following fake class (and only this class) should be created:
+The following fake class should be created (and only this class should be required):
 ```CSharp
 public class FakeNavigationService : INavigationService
 {
@@ -60,4 +60,15 @@ Assert.AreEqual("ViewName", this.fakeNavigationService.NavigateAction.Invocation
 Additionally, given the path to an assembly and an output directory, you can automatically generate the fake classes.
 ```Shell
 FakeWin8.Generator.Console.exe <dllPath> <outputDir>
+```
+
+Configure Fake Methods
+------------------
+You can configure methods to only allow invocations that match a certain set of constraints based on its parameters. If an invocation does not match a specified constraint an `InvalidInvocationException` is thrown.
+To specify constraints for a parameter of type `T`, a predicate of type `Func<T, bool>` must be used. For example:
+```CSharp
+var fakeMethod = FakeMethod.CreateFor<int, int>(p => p).AcceptOnly(n => n == 2);
+
+// next line throws InvalidInvocationException
+fakeMethod.Invoke(3);
 ```
