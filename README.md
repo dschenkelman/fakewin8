@@ -6,7 +6,7 @@ Premises
 ---------
 The following are the core premises followed by **fakewin8**:
 
-1. For each interface or base class, create **only one class that can be used as a stub/mock in any test method**. This means that all methods must be easily setup in different unit tests.
+1. For each interface or base class, I want to create **only one class that can be used as a stub/mock in any test method**. This means that all methods must be easy to setup with different logic for different unit tests.
 1. No unnecessary components should be necessary (i.e.: no portable class libraries, no linked files).
 1. Method invocations should be automatically tracked so assertions can be performed based on them.
 1. Fake class generation should be automatic. We want to focus on the tests development, not the fakes development.
@@ -25,7 +25,7 @@ public interface INavigationService
 }
 ```
 
-The following fake class should be created:
+The following fake class (and only this class) should be created:
 ```CSharp
 public class FakeNavigationService : INavigationService
 {
@@ -48,7 +48,7 @@ public class FakeNavigationService : INavigationService
 The `FakeAction` and `FakeFunc` classes (at the moment they support until up to 3 parameters) can be leveraged like this in your unit tests:
 ```CSharp
 // arrange
-this.fakeNavigationService.NavigateAction = FakeMethodFactory.CreateAction<string>(view => { });
+this.fakeNavigationService.NavigateAction = FakeMethod.CreateFor<string>(view => { });
 
 // act
 
