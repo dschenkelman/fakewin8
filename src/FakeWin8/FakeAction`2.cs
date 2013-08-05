@@ -6,7 +6,7 @@
 
     using FakeWin8.Conditions;
 
-    public class FakeAction<T1, T2> : FakeMethodBase, IFakeAction<T1, T2>
+    public class FakeAction<T1, T2> : FakeMethodBase
     {
         private readonly Action<T1, T2> action;
 

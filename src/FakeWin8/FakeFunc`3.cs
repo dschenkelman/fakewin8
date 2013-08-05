@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
 
-    public class FakeFunc<T1, T2, T3, TResult> : FakeMethodBase, IFakeFunc<T1, T2, T3, TResult>
+    public class FakeFunc<T1, T2, T3, TResult> : FakeMethodBase
     {
         private readonly Func<T1, T2, T3, TResult> function;
 

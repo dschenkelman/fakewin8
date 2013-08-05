@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
 
-    public class FakeAction<T1, T2, T3> : FakeMethodBase, IFakeAction<T1, T2, T3>
+    public class FakeAction<T1, T2, T3> : FakeMethodBase
     {
         private readonly Action<T1, T2, T3> action;
 

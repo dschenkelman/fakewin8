@@ -52,15 +52,7 @@
     <Compile Include="FakeFunc`3.cs" />
     <Compile Include="FakeMethodBase.cs" />
     <Compile Include="FakeMethod.cs" />
-    <Compile Include="IFakeAction.cs" />
-    <Compile Include="IFakeAction`1.cs" />
-    <Compile Include="IFakeAction`2.cs" />
-    <Compile Include="IFakeAction`3.cs" />
-    <Compile Include="IFakeFunc.cs" />
-    <Compile Include="IFakeFunc`1.cs" />
-    <Compile Include="IFakeFunc`2.cs" />
-    <Compile Include="IFakeFunc`3.cs" />
-    <Compile Include="IFakeMethodBase.cs" />
+    <Compile Include="FakeMethodBase`1.cs" />
     <Compile Include="Invocation`1.cs" />
     <Compile Include="Invocation`2.cs" />
     <Compile Include="Invocation`3.cs" />

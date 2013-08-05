@@ -6,7 +6,7 @@
 
     using FakeWin8.Conditions;
 
-    public class FakeFunc<T1, T2, TResult> : FakeMethodBase, IFakeFunc<T1, T2, TResult>
+    public class FakeFunc<T1, T2, TResult> : FakeMethodBase
     {
         private readonly Func<T1, T2, TResult> function;
 

@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class FakeAction : FakeMethodBase, IFakeAction
+    public class FakeAction : FakeMethodBase
     {
         private readonly Action action;
 

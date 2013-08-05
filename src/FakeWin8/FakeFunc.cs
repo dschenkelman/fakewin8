@@ -2,7 +2,7 @@ namespace FakeWin8
 {
     using System;
 
-    public class FakeFunc<TResult> : FakeMethodBase, IFakeFunc<TResult>
+    public class FakeFunc<TResult> : FakeMethodBase
     {
         private readonly Func<TResult> function;
 
