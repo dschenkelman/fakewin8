@@ -53,10 +53,11 @@
     <Compile Include="FakeMethodBase.cs" />
     <Compile Include="FakeMethod.cs" />
     <Compile Include="FakeMethodBase`1.cs" />
+    <Compile Include="FakeMethodBase`2.cs" />
     <Compile Include="Invocation`1.cs" />
     <Compile Include="Invocation`2.cs" />
     <Compile Include="Invocation`3.cs" />
-    <Compile Include="InvalidInvocationException.cs" />
+    <Compile Include="Exceptions\InvalidInvocationException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>

@@ -4,17 +4,12 @@ namespace FakeWin8
     {
         public int NumberOfInvocations { get; set; }
 
-        internal void HandleInvocation()
+        protected void HandleInvocation()
         {
             this.NumberOfInvocations++;
         }
 
-        internal Invocation<T1, T2> CreateInvocation<T1, T2>(T1 param1, T2 param2)
-        {
-            return new Invocation<T1, T2> { FirstParameter = param1, SecondParameter = param2 };
-        }
-
-        internal Invocation<T1, T2, T3> CreateInvocation<T1, T2, T3>(T1 param1, T2 param2, T3 param3)
+        protected Invocation<T1, T2, T3> CreateInvocation<T1, T2, T3>(T1 param1, T2 param2, T3 param3)
         {
             return new Invocation<T1, T2, T3>
                 {

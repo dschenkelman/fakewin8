@@ -33,8 +33,7 @@
             builder.Append(
                 string.Join(
                     ", ",
-                    parameters.Select(
-                        p => string.Format("{0} {1}", new TypeGenerator(p.ParameterType).Generate(), p.Name)).ToArray()));
+                    parameters.Select(p => string.Format("{0} {1}", new TypeGenerator(p.ParameterType).Generate(), p.Name)).ToArray()));
 
             builder.Append(")");
             builder.Append(Environment.NewLine);

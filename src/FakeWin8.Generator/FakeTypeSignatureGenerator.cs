@@ -11,16 +11,6 @@
             this.type = type;
         }
 
-        public string Generate()
-        {
-            var typeGenerator = new TypeGenerator(this.type);
-            string trimmedName = typeGenerator.Generate();
-
-            trimmedName = GetFakeTypeName(this.type, trimmedName);
-
-            return string.Format("public class Fake{0} : {1}", trimmedName, typeGenerator.Generate());
-        }
-
         public static string GetFakeTypeName(Type type, string representation)
         {
             if (type.IsInterface && type.Name.StartsWith("I"))
@@ -29,6 +19,16 @@
             }
 
             return representation;
+        }
+
+        public string Generate()
+        {
+            var typeGenerator = new TypeGenerator(this.type);
+            string trimmedName = typeGenerator.Generate();
+
+            trimmedName = GetFakeTypeName(this.type, trimmedName);
+
+            return string.Format("public class Fake{0} : {1}", trimmedName, typeGenerator.Generate());
         }
     }
 }

@@ -3,6 +3,8 @@
     using System;
     using System.Linq;
 
+    using FakeWin8.Exceptions;
+
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     public class FakeFuncTests

@@ -1,4 +1,4 @@
-﻿namespace FakeWin8
+﻿namespace FakeWin8.Exceptions
 {
     using System;
 
