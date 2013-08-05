@@ -28,6 +28,9 @@
                     Environment.NewLine + Environment.NewLine,
                     methods.Select(methodInfo => new FakeMethodPropertyGenerator(methodInfo).Generate()).ToArray()));
 
+            builder.Append(Environment.NewLine);
+            builder.Append(Environment.NewLine);
+
             builder.Append(
                 string.Join(
                     Environment.NewLine + Environment.NewLine,

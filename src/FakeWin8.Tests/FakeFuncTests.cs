@@ -13,7 +13,7 @@
             [TestMethod]
             public void ShouldIncreaseNumberOfInvocationsWhenFakeFuncIsInvoked()
             {
-                var fakeFunc = new FakeFunc<object>(() => null);
+                var fakeFunc = FakeMethod.CreateFor<object>(() => null);
 
                 fakeFunc.Invoke();
                 Assert.AreEqual(1, fakeFunc.NumberOfInvocations);
@@ -29,7 +29,7 @@
             public void ShouldInvokeFuncWhenFakeFuncIsInvoked()
             {
                 bool funcInvoked = false;
-                var fakeFunc = new FakeFunc<object>(() =>
+                var fakeFunc = FakeMethod.CreateFor<object>(() =>
                     { 
                         funcInvoked = true;
                         return null;
@@ -45,7 +45,7 @@
             {
                 var toReturn = new object();
 
-                var fakeFunc = new FakeFunc<object>(() => toReturn);
+                var fakeFunc = FakeMethod.CreateFor(() => toReturn);
 
                 var returned = fakeFunc.Invoke();
 
@@ -68,7 +68,7 @@
 
                 object ignored = null;
 
-                var fakeAction = new FakeFunc<object, object>(func);
+                var fakeAction = FakeMethod.CreateFor(func);
 
                 fakeAction.Invoke(ignored);
 
@@ -82,7 +82,7 @@
 
                 object ignored = null;
 
-                var fakeAction = new FakeFunc<object, object>(func);
+                var fakeAction = FakeMethod.CreateFor(func);
 
                 fakeAction.Invoke(ignored);
                 Assert.AreEqual(1, fakeAction.NumberOfInvocations);
@@ -99,7 +99,7 @@
             {
                 var o = new object();
 
-                var fakeAction = new FakeFunc<object, object>(p => null);
+                var fakeAction = FakeMethod.CreateFor<object, object>(p => null);
 
                 fakeAction.Invoke(o);
 
@@ -113,7 +113,7 @@
                 var second = new object();
                 var third = new object();
 
-                var fakeAction = new FakeFunc<object, object>(p => null);
+                var fakeAction = FakeMethod.CreateFor<object, object>(p => null);
 
                 fakeAction.Invoke(first);
                 fakeAction.Invoke(second);
@@ -129,7 +129,7 @@
             {
                 var toReturn = new object();
 
-                var fakeAction = new FakeFunc<object, object>(p => toReturn);
+                var fakeAction = FakeMethod.CreateFor<object, object>(p => toReturn);
 
                 var returned = fakeAction.Invoke(null);
 

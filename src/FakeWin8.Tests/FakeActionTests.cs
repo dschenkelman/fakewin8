@@ -16,7 +16,7 @@
                 bool actionCalled = false;
                 Action action = () => { actionCalled = true; };
 
-                var fakeAction = FakeMethodFactory.CreateAction(action);
+                var fakeAction = FakeMethod.CreateFor(action);
 
                 fakeAction.Invoke();
 
@@ -26,7 +26,7 @@
             [TestMethod]
             public void ShouldIncreaseNumberOfInvocationsEachTimeFakeActionIsInvoked()
             {
-                var fakeAction = FakeMethodFactory.CreateAction(() => { });
+                var fakeAction = FakeMethod.CreateFor(() => { });
 
                 fakeAction.Invoke();
                 Assert.AreEqual(1, fakeAction.NumberOfInvocations);
@@ -49,7 +49,7 @@
                 Action<object> action = o => { actionCalled = true; };
                 object ignored = null;
 
-                var fakeAction = FakeMethodFactory.CreateAction(action);
+                var fakeAction = FakeMethod.CreateFor(action);
 
                 fakeAction.Invoke(ignored);
 
@@ -60,7 +60,7 @@
             public void ShouldIncreaseNumberOfInvocationsEachTimeFakeActionIsInvoked()
             {
                 object ignored = null;
-                var fakeAction = FakeMethodFactory.CreateAction<object>(o => { });
+                var fakeAction = FakeMethod.CreateFor<object>(o => { });
 
                 fakeAction.Invoke(ignored);
                 Assert.AreEqual(1, fakeAction.NumberOfInvocations);
@@ -77,7 +77,7 @@
             {
                 object o = new object();
 
-                var fakeAction = FakeMethodFactory.CreateAction<object>(p => { });
+                var fakeAction = FakeMethod.CreateFor<object>(p => { });
 
                 fakeAction.Invoke(o);
                 
@@ -91,7 +91,7 @@
                 var second = new object();
                 var third = new object();
 
-                var fakeAction = FakeMethodFactory.CreateAction<object>(p => { });
+                var fakeAction = FakeMethod.CreateFor<object>(p => { });
 
                 fakeAction.Invoke(first);
                 fakeAction.Invoke(second);
@@ -113,7 +113,7 @@
                 Action<object, object> action = (o1, o2) => { actionCalled = true; };
                 object ignored = null;
 
-                var fakeAction = FakeMethodFactory.CreateAction(action);
+                var fakeAction = FakeMethod.CreateFor(action);
 
                 fakeAction.Invoke(ignored, ignored);
 
@@ -124,7 +124,7 @@
             public void ShouldIncreaseNumberOfInvocationsEachTimeFakeActionIsInvoked()
             {
                 object ignored = null;
-                var fakeAction = new FakeAction<object,object>((o1, o2) => { });
+                var fakeAction = FakeMethod.CreateFor<object, object>((o1, o2) => { });
 
                 fakeAction.Invoke(ignored, ignored);
                 Assert.AreEqual(1, fakeAction.NumberOfInvocations);
@@ -142,7 +142,7 @@
                 object param1 = new object();
                 object param2 = new object();
 
-                var fakeAction = FakeMethodFactory.CreateAction<object, object>((o1, o2) => { });
+                var fakeAction = FakeMethod.CreateFor<object, object>((o1, o2) => { });
 
                 fakeAction.Invoke(param1, param2);
 
@@ -161,7 +161,7 @@
                 var second2 = new object();
                 var third2 = new object();
 
-                var fakeAction = FakeMethodFactory.CreateAction<object, object>((o1, o2) => { });
+                var fakeAction = FakeMethod.CreateFor<object, object>((o1, o2) => { });
 
                 fakeAction.Invoke(first1, first2);
                 fakeAction.Invoke(second1, second2);
@@ -188,7 +188,7 @@
                 Action<object, object, object> action = (o1, o2, o3) => { actionCalled = true; };
                 object ignored = null;
 
-                var fakeAction = FakeMethodFactory.CreateAction(action);
+                var fakeAction = FakeMethod.CreateFor(action);
 
                 fakeAction.Invoke(ignored, ignored, ignored);
 
@@ -199,7 +199,7 @@
             public void ShouldIncreaseNumberOfInvocationsEachTimeFakeActionIsInvoked()
             {
                 object ignored = null;
-                var fakeAction = FakeMethodFactory.CreateAction<object, object, object>((o1, o2, o3) => { });
+                var fakeAction = FakeMethod.CreateFor<object, object, object>((o1, o2, o3) => { });
 
                 fakeAction.Invoke(ignored, ignored, ignored);
                 Assert.AreEqual(1, fakeAction.NumberOfInvocations);
@@ -218,7 +218,7 @@
                 object param2 = new object();
                 object param3 = new object();
 
-                var fakeAction = FakeMethodFactory.CreateAction<object, object, object>((o1, o2, o3) => { });
+                var fakeAction = FakeMethod.CreateFor<object, object, object>((o1, o2, o3) => { });
 
                 fakeAction.Invoke(param1, param2, param3);
 
@@ -242,7 +242,7 @@
                 var second3 = new object();
                 var third3 = new object();
 
-                var fakeAction = FakeMethodFactory.CreateAction<object, object, object>((o1, o2, o3) => { });
+                var fakeAction = FakeMethod.CreateFor<object, object, object>((o1, o2, o3) => { });
 
                 fakeAction.Invoke(first1, first2, first3);
                 fakeAction.Invoke(second1, second2, second3);

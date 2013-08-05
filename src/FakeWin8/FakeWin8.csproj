@@ -45,7 +45,7 @@
     <Compile Include="FakeFunc`2.cs" />
     <Compile Include="FakeFunc`3.cs" />
     <Compile Include="FakeMethodBase.cs" />
-    <Compile Include="FakeMethodFactory.cs" />
+    <Compile Include="FakeMethod.cs" />
     <Compile Include="IFakeAction.cs" />
     <Compile Include="IFakeAction`1.cs" />
     <Compile Include="IFakeAction`2.cs" />
