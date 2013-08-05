@@ -6,6 +6,7 @@
 
     using FakeWin8.Conditions;
     using FakeWin8.Exceptions;
+    using FakeWin8.Properties;
 
     public abstract class FakeMethodBase<T1> : FakeMethodBase
     {
