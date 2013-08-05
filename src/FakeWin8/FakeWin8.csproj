@@ -54,6 +54,7 @@
     <Compile Include="FakeMethod.cs" />
     <Compile Include="FakeMethodBase`1.cs" />
     <Compile Include="FakeMethodBase`2.cs" />
+    <Compile Include="FakeMethodBase`3.cs" />
     <Compile Include="Invocation`1.cs" />
     <Compile Include="Invocation`2.cs" />
     <Compile Include="Invocation`3.cs" />
