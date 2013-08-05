@@ -318,6 +318,55 @@
                 Assert.AreSame(third2, fakeMethod.Invocations.ElementAt(2).SecondParameter);
                 Assert.AreSame(third3, fakeMethod.Invocations.ElementAt(2).ThirdParameter);
             }
+
+            [TestMethod]
+            [ExpectedException(typeof(InvalidInvocationException))]
+            public void ShouldThrowExceptionWhenInvocationDoesNotMeetAcceptedConditionDueToFirstParameter()
+            {
+                var fakeMethod = FakeMethod
+                    .CreateFor<int, int, int>((p1, p2, p3) => { })
+                    .AcceptOnly(n => n == 1, n => n == 2, n => n == 3);
+
+                fakeMethod.Invoke(2, 2, 3);
+            }
+
+            [TestMethod]
+            [ExpectedException(typeof(InvalidInvocationException))]
+            public void ShouldThrowExceptionWhenInvocationDoesNotMeetAcceptanceConditionDueToSecondParameter()
+            {
+                var fakeMethod = FakeMethod
+                    .CreateFor<int, int, int>((p1, p2, p3) => { })
+                    .AcceptOnly(n => n == 1, n => n == 2, n => n == 3);
+
+                fakeMethod.Invoke(1, 1, 3);
+            }
+
+            [TestMethod]
+            [ExpectedException(typeof(InvalidInvocationException))]
+            public void ShouldThrowExceptionWhenInvocationDoesNotMeetAcceptanceConditionDueToThirdParameter()
+            {
+                var fakeMethod = FakeMethod
+                    .CreateFor<int, int, int>((p1, p2, p3) => { })
+                    .AcceptOnly(n => n == 1, n => n == 2, n => n == 3);
+
+                fakeMethod.Invoke(1, 2, 2);
+            }
+
+            [TestMethod]
+            public void ShouldInvokeActionIfParametersMeetAcceptanceCondition()
+            {
+                bool actionInvoked = false;
+                var fakeMethod = FakeMethod.CreateFor<int, int, int>((p1, p2, p3) => { actionInvoked = true; }).AcceptOnly(n => n == 1, n => n == 2, n => n == 3);
+
+                fakeMethod.Invoke(1, 2, 3);
+
+                Assert.IsTrue(actionInvoked);
+
+                Assert.AreEqual(1, fakeMethod.NumberOfInvocations);
+                Assert.AreEqual(1, fakeMethod.Invocations.First().FirstParameter);
+                Assert.AreEqual(2, fakeMethod.Invocations.First().SecondParameter);
+                Assert.AreEqual(3, fakeMethod.Invocations.First().ThirdParameter);
+            }
         }
     }
 }
