@@ -16,9 +16,9 @@
                 bool actionCalled = false;
                 Action action = () => { actionCalled = true; };
 
-                var fakeAction = FakeMethod.CreateFor(action);
+                var fakeMethod = FakeMethod.CreateFor(action);
 
-                fakeAction.Invoke();
+                fakeMethod.Invoke();
 
                 Assert.IsTrue(actionCalled);
             }
@@ -26,16 +26,16 @@
             [TestMethod]
             public void ShouldIncreaseNumberOfInvocationsEachTimeFakeActionIsInvoked()
             {
-                var fakeAction = FakeMethod.CreateFor(() => { });
+                var fakeMethod = FakeMethod.CreateFor(() => { });
 
-                fakeAction.Invoke();
-                Assert.AreEqual(1, fakeAction.NumberOfInvocations);
+                fakeMethod.Invoke();
+                Assert.AreEqual(1, fakeMethod.NumberOfInvocations);
 
-                fakeAction.Invoke();
-                Assert.AreEqual(2, fakeAction.NumberOfInvocations);
+                fakeMethod.Invoke();
+                Assert.AreEqual(2, fakeMethod.NumberOfInvocations);
 
-                fakeAction.Invoke();
-                Assert.AreEqual(3, fakeAction.NumberOfInvocations);
+                fakeMethod.Invoke();
+                Assert.AreEqual(3, fakeMethod.NumberOfInvocations);
             }
         }
 
@@ -49,9 +49,9 @@
                 Action<object> action = o => { actionCalled = true; };
                 object ignored = null;
 
-                var fakeAction = FakeMethod.CreateFor(action);
+                var fakeMethod = FakeMethod.CreateFor(action);
 
-                fakeAction.Invoke(ignored);
+                fakeMethod.Invoke(ignored);
 
                 Assert.IsTrue(actionCalled);
             }
@@ -60,16 +60,16 @@
             public void ShouldIncreaseNumberOfInvocationsEachTimeFakeActionIsInvoked()
             {
                 object ignored = null;
-                var fakeAction = FakeMethod.CreateFor<object>(o => { });
+                var fakeMethod = FakeMethod.CreateFor<object>(o => { });
 
-                fakeAction.Invoke(ignored);
-                Assert.AreEqual(1, fakeAction.NumberOfInvocations);
+                fakeMethod.Invoke(ignored);
+                Assert.AreEqual(1, fakeMethod.NumberOfInvocations);
 
-                fakeAction.Invoke(ignored);
-                Assert.AreEqual(2, fakeAction.NumberOfInvocations);
+                fakeMethod.Invoke(ignored);
+                Assert.AreEqual(2, fakeMethod.NumberOfInvocations);
 
-                fakeAction.Invoke(ignored);
-                Assert.AreEqual(3, fakeAction.NumberOfInvocations);
+                fakeMethod.Invoke(ignored);
+                Assert.AreEqual(3, fakeMethod.NumberOfInvocations);
             }
 
             [TestMethod]
@@ -77,11 +77,11 @@
             {
                 object o = new object();
 
-                var fakeAction = FakeMethod.CreateFor<object>(p => { });
+                var fakeMethod = FakeMethod.CreateFor<object>(p => { });
 
-                fakeAction.Invoke(o);
+                fakeMethod.Invoke(o);
                 
-                Assert.AreSame(o, fakeAction.Invocations.First().Parameter);
+                Assert.AreSame(o, fakeMethod.Invocations.First().Parameter);
             }
 
             [TestMethod]
@@ -91,15 +91,38 @@
                 var second = new object();
                 var third = new object();
 
-                var fakeAction = FakeMethod.CreateFor<object>(p => { });
+                var fakeMethod = FakeMethod.CreateFor<object>(p => { });
 
-                fakeAction.Invoke(first);
-                fakeAction.Invoke(second);
-                fakeAction.Invoke(third);
+                fakeMethod.Invoke(first);
+                fakeMethod.Invoke(second);
+                fakeMethod.Invoke(third);
 
-                Assert.AreSame(first, fakeAction.Invocations.ElementAt(0).Parameter);
-                Assert.AreSame(second, fakeAction.Invocations.ElementAt(1).Parameter);
-                Assert.AreSame(third, fakeAction.Invocations.ElementAt(2).Parameter);
+                Assert.AreSame(first, fakeMethod.Invocations.ElementAt(0).Parameter);
+                Assert.AreSame(second, fakeMethod.Invocations.ElementAt(1).Parameter);
+                Assert.AreSame(third, fakeMethod.Invocations.ElementAt(2).Parameter);
+            }
+
+            [TestMethod]
+            [ExpectedException(typeof(InvalidInvocationException))]
+            public void ShouldThrowExceptionWhenInvocationDoesNotMeetAcceptedConditionValues()
+            {
+                var fakeMethod = FakeMethod.CreateFor<int>(p => { }).AcceptOnly(n => n == 2);
+
+                fakeMethod.Invoke(3);
+            }
+
+            [TestMethod]
+            public void ShouldInvokeActionIfAcceptConditionIsMet()
+            {
+                bool invoked = false;
+
+                var fakeMethod = FakeMethod.CreateFor<int>(p => { invoked = true; }).AcceptOnly(n => n == 2);
+
+                fakeMethod.Invoke(2);
+
+                Assert.IsTrue(invoked);
+                Assert.AreEqual(1, fakeMethod.NumberOfInvocations);
+                Assert.AreEqual(2, fakeMethod.Invocations.First().Parameter);
             }
         }
 
@@ -113,9 +136,9 @@
                 Action<object, object> action = (o1, o2) => { actionCalled = true; };
                 object ignored = null;
 
-                var fakeAction = FakeMethod.CreateFor(action);
+                var fakeMethod = FakeMethod.CreateFor(action);
 
-                fakeAction.Invoke(ignored, ignored);
+                fakeMethod.Invoke(ignored, ignored);
 
                 Assert.IsTrue(actionCalled);
             }
@@ -124,16 +147,16 @@
             public void ShouldIncreaseNumberOfInvocationsEachTimeFakeActionIsInvoked()
             {
                 object ignored = null;
-                var fakeAction = FakeMethod.CreateFor<object, object>((o1, o2) => { });
+                var fakeMethod = FakeMethod.CreateFor<object, object>((o1, o2) => { });
 
-                fakeAction.Invoke(ignored, ignored);
-                Assert.AreEqual(1, fakeAction.NumberOfInvocations);
+                fakeMethod.Invoke(ignored, ignored);
+                Assert.AreEqual(1, fakeMethod.NumberOfInvocations);
 
-                fakeAction.Invoke(ignored, ignored);
-                Assert.AreEqual(2, fakeAction.NumberOfInvocations);
+                fakeMethod.Invoke(ignored, ignored);
+                Assert.AreEqual(2, fakeMethod.NumberOfInvocations);
 
-                fakeAction.Invoke(ignored, ignored);
-                Assert.AreEqual(3, fakeAction.NumberOfInvocations);
+                fakeMethod.Invoke(ignored, ignored);
+                Assert.AreEqual(3, fakeMethod.NumberOfInvocations);
             }
 
             [TestMethod]
@@ -142,12 +165,12 @@
                 object param1 = new object();
                 object param2 = new object();
 
-                var fakeAction = FakeMethod.CreateFor<object, object>((o1, o2) => { });
+                var fakeMethod = FakeMethod.CreateFor<object, object>((o1, o2) => { });
 
-                fakeAction.Invoke(param1, param2);
+                fakeMethod.Invoke(param1, param2);
 
-                Assert.AreSame(param1, fakeAction.Invocations.First().FirstParameter);
-                Assert.AreSame(param2, fakeAction.Invocations.First().SecondParameter);
+                Assert.AreSame(param1, fakeMethod.Invocations.First().FirstParameter);
+                Assert.AreSame(param2, fakeMethod.Invocations.First().SecondParameter);
             }
 
             [TestMethod]
@@ -161,20 +184,53 @@
                 var second2 = new object();
                 var third2 = new object();
 
-                var fakeAction = FakeMethod.CreateFor<object, object>((o1, o2) => { });
+                var fakeMethod = FakeMethod.CreateFor<object, object>((o1, o2) => { });
 
-                fakeAction.Invoke(first1, first2);
-                fakeAction.Invoke(second1, second2);
-                fakeAction.Invoke(third1, third2);
+                fakeMethod.Invoke(first1, first2);
+                fakeMethod.Invoke(second1, second2);
+                fakeMethod.Invoke(third1, third2);
 
-                Assert.AreSame(first1, fakeAction.Invocations.ElementAt(0).FirstParameter);
-                Assert.AreSame(first2, fakeAction.Invocations.ElementAt(0).SecondParameter);
+                Assert.AreSame(first1, fakeMethod.Invocations.ElementAt(0).FirstParameter);
+                Assert.AreSame(first2, fakeMethod.Invocations.ElementAt(0).SecondParameter);
 
-                Assert.AreSame(second1, fakeAction.Invocations.ElementAt(1).FirstParameter);
-                Assert.AreSame(second2, fakeAction.Invocations.ElementAt(1).SecondParameter);
+                Assert.AreSame(second1, fakeMethod.Invocations.ElementAt(1).FirstParameter);
+                Assert.AreSame(second2, fakeMethod.Invocations.ElementAt(1).SecondParameter);
 
-                Assert.AreSame(third1, fakeAction.Invocations.ElementAt(2).FirstParameter);
-                Assert.AreSame(third2, fakeAction.Invocations.ElementAt(2).SecondParameter);
+                Assert.AreSame(third1, fakeMethod.Invocations.ElementAt(2).FirstParameter);
+                Assert.AreSame(third2, fakeMethod.Invocations.ElementAt(2).SecondParameter);
+            }
+
+            [TestMethod]
+            [ExpectedException(typeof(InvalidInvocationException))]
+            public void ShouldThrowExceptionWhenInvocationDoesNotMeetAcceptedConditionDueToFirstParameter()
+            {
+                var fakeMethod = FakeMethod.CreateFor<int, int>((p1, p2) => { }).AcceptOnly(n => n == 1, n => n == 2);
+
+                fakeMethod.Invoke(2, 2);
+            }
+
+            [TestMethod]
+            [ExpectedException(typeof(InvalidInvocationException))]
+            public void ShouldThrowExceptionWhenInvocationDoesNotMeetAcceptanceConditionDueToSecondParameter()
+            {
+                var fakeMethod = FakeMethod.CreateFor<int, int>((p1, p2) => { }).AcceptOnly(n => n == 1, n => n == 2);
+
+                fakeMethod.Invoke(1, 1);
+            }
+
+            [TestMethod]
+            public void ShouldInvokeActionIfParametersMeetAcceptanceCondition()
+            {
+                bool actionInvoked = false;
+                var fakeMethod = FakeMethod.CreateFor<int, int>((p1, p2) => { actionInvoked = true; }).AcceptOnly(n => n == 1, n => n == 2);
+
+                fakeMethod.Invoke(1, 2);
+
+                Assert.IsTrue(actionInvoked);
+
+                Assert.AreEqual(1, fakeMethod.NumberOfInvocations);
+                Assert.AreEqual(1, fakeMethod.Invocations.First().FirstParameter);
+                Assert.AreEqual(2, fakeMethod.Invocations.First().SecondParameter);
             }
         }
 
@@ -188,9 +244,9 @@
                 Action<object, object, object> action = (o1, o2, o3) => { actionCalled = true; };
                 object ignored = null;
 
-                var fakeAction = FakeMethod.CreateFor(action);
+                var fakeMethod = FakeMethod.CreateFor(action);
 
-                fakeAction.Invoke(ignored, ignored, ignored);
+                fakeMethod.Invoke(ignored, ignored, ignored);
 
                 Assert.IsTrue(actionCalled);
             }
@@ -199,16 +255,16 @@
             public void ShouldIncreaseNumberOfInvocationsEachTimeFakeActionIsInvoked()
             {
                 object ignored = null;
-                var fakeAction = FakeMethod.CreateFor<object, object, object>((o1, o2, o3) => { });
+                var fakeMethod = FakeMethod.CreateFor<object, object, object>((o1, o2, o3) => { });
 
-                fakeAction.Invoke(ignored, ignored, ignored);
-                Assert.AreEqual(1, fakeAction.NumberOfInvocations);
+                fakeMethod.Invoke(ignored, ignored, ignored);
+                Assert.AreEqual(1, fakeMethod.NumberOfInvocations);
 
-                fakeAction.Invoke(ignored, ignored, ignored);
-                Assert.AreEqual(2, fakeAction.NumberOfInvocations);
+                fakeMethod.Invoke(ignored, ignored, ignored);
+                Assert.AreEqual(2, fakeMethod.NumberOfInvocations);
 
-                fakeAction.Invoke(ignored, ignored, ignored);
-                Assert.AreEqual(3, fakeAction.NumberOfInvocations);
+                fakeMethod.Invoke(ignored, ignored, ignored);
+                Assert.AreEqual(3, fakeMethod.NumberOfInvocations);
             }
 
             [TestMethod]
@@ -218,13 +274,13 @@
                 object param2 = new object();
                 object param3 = new object();
 
-                var fakeAction = FakeMethod.CreateFor<object, object, object>((o1, o2, o3) => { });
+                var fakeMethod = FakeMethod.CreateFor<object, object, object>((o1, o2, o3) => { });
 
-                fakeAction.Invoke(param1, param2, param3);
+                fakeMethod.Invoke(param1, param2, param3);
 
-                Assert.AreSame(param1, fakeAction.Invocations.First().FirstParameter);
-                Assert.AreSame(param2, fakeAction.Invocations.First().SecondParameter);
-                Assert.AreSame(param3, fakeAction.Invocations.First().ThirdParameter);
+                Assert.AreSame(param1, fakeMethod.Invocations.First().FirstParameter);
+                Assert.AreSame(param2, fakeMethod.Invocations.First().SecondParameter);
+                Assert.AreSame(param3, fakeMethod.Invocations.First().ThirdParameter);
             }
 
             [TestMethod]
@@ -242,23 +298,23 @@
                 var second3 = new object();
                 var third3 = new object();
 
-                var fakeAction = FakeMethod.CreateFor<object, object, object>((o1, o2, o3) => { });
+                var fakeMethod = FakeMethod.CreateFor<object, object, object>((o1, o2, o3) => { });
 
-                fakeAction.Invoke(first1, first2, first3);
-                fakeAction.Invoke(second1, second2, second3);
-                fakeAction.Invoke(third1, third2, third3);
+                fakeMethod.Invoke(first1, first2, first3);
+                fakeMethod.Invoke(second1, second2, second3);
+                fakeMethod.Invoke(third1, third2, third3);
 
-                Assert.AreSame(first1, fakeAction.Invocations.ElementAt(0).FirstParameter);
-                Assert.AreSame(first2, fakeAction.Invocations.ElementAt(0).SecondParameter);
-                Assert.AreSame(first3, fakeAction.Invocations.ElementAt(0).ThirdParameter);
+                Assert.AreSame(first1, fakeMethod.Invocations.ElementAt(0).FirstParameter);
+                Assert.AreSame(first2, fakeMethod.Invocations.ElementAt(0).SecondParameter);
+                Assert.AreSame(first3, fakeMethod.Invocations.ElementAt(0).ThirdParameter);
 
-                Assert.AreSame(second1, fakeAction.Invocations.ElementAt(1).FirstParameter);
-                Assert.AreSame(second2, fakeAction.Invocations.ElementAt(1).SecondParameter);
-                Assert.AreSame(second3, fakeAction.Invocations.ElementAt(1).ThirdParameter);
+                Assert.AreSame(second1, fakeMethod.Invocations.ElementAt(1).FirstParameter);
+                Assert.AreSame(second2, fakeMethod.Invocations.ElementAt(1).SecondParameter);
+                Assert.AreSame(second3, fakeMethod.Invocations.ElementAt(1).ThirdParameter);
 
-                Assert.AreSame(third1, fakeAction.Invocations.ElementAt(2).FirstParameter);
-                Assert.AreSame(third2, fakeAction.Invocations.ElementAt(2).SecondParameter);
-                Assert.AreSame(third3, fakeAction.Invocations.ElementAt(2).ThirdParameter);
+                Assert.AreSame(third1, fakeMethod.Invocations.ElementAt(2).FirstParameter);
+                Assert.AreSame(third2, fakeMethod.Invocations.ElementAt(2).SecondParameter);
+                Assert.AreSame(third3, fakeMethod.Invocations.ElementAt(2).ThirdParameter);
             }
         }
     }

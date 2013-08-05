@@ -34,8 +34,14 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
+    <EmbeddedResource Include="Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Conditions\ParametersCondition`2.cs" />
+    <Compile Include="Conditions\ParametersCondition`1.cs" />
     <Compile Include="FakeAction.cs" />
     <Compile Include="FakeAction`1.cs" />
     <Compile Include="FakeAction`2.cs" />
@@ -58,7 +64,13 @@
     <Compile Include="Invocation`1.cs" />
     <Compile Include="Invocation`2.cs" />
     <Compile Include="Invocation`3.cs" />
+    <Compile Include="InvalidInvocationException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
