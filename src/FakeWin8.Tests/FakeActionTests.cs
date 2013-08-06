@@ -108,7 +108,7 @@
             [ExpectedException(typeof(InvalidInvocationException))]
             public void ShouldThrowExceptionWhenInvocationDoesNotMeetAcceptedConditionValues()
             {
-                var fakeMethod = FakeMethod.CreateFor<int>(p => { }).AcceptOnly(n => n == 2);
+                var fakeMethod = FakeMethod.CreateFor<int>(p => { }).Accept(n => n == 2);
 
                 fakeMethod.Invoke(3);
             }
@@ -118,7 +118,7 @@
             {
                 bool invoked = false;
 
-                var fakeMethod = FakeMethod.CreateFor<int>(p => { invoked = true; }).AcceptOnly(n => n == 2);
+                var fakeMethod = FakeMethod.CreateFor<int>(p => { invoked = true; }).Accept(n => n == 2);
 
                 fakeMethod.Invoke(2);
 
@@ -206,7 +206,7 @@
             [ExpectedException(typeof(InvalidInvocationException))]
             public void ShouldThrowExceptionWhenInvocationDoesNotMeetAcceptedConditionDueToFirstParameter()
             {
-                var fakeMethod = FakeMethod.CreateFor<int, int>((p1, p2) => { }).AcceptOnly(n => n == 1, n => n == 2);
+                var fakeMethod = FakeMethod.CreateFor<int, int>((p1, p2) => { }).Accept(n => n == 1, n => n == 2);
 
                 fakeMethod.Invoke(2, 2);
             }
@@ -215,7 +215,7 @@
             [ExpectedException(typeof(InvalidInvocationException))]
             public void ShouldThrowExceptionWhenInvocationDoesNotMeetAcceptanceConditionDueToSecondParameter()
             {
-                var fakeMethod = FakeMethod.CreateFor<int, int>((p1, p2) => { }).AcceptOnly(n => n == 1, n => n == 2);
+                var fakeMethod = FakeMethod.CreateFor<int, int>((p1, p2) => { }).Accept(n => n == 1, n => n == 2);
 
                 fakeMethod.Invoke(1, 1);
             }
@@ -224,7 +224,7 @@
             public void ShouldInvokeActionIfParametersMeetAcceptanceCondition()
             {
                 bool actionInvoked = false;
-                var fakeMethod = FakeMethod.CreateFor<int, int>((p1, p2) => { actionInvoked = true; }).AcceptOnly(n => n == 1, n => n == 2);
+                var fakeMethod = FakeMethod.CreateFor<int, int>((p1, p2) => { actionInvoked = true; }).Accept(n => n == 1, n => n == 2);
 
                 fakeMethod.Invoke(1, 2);
 
@@ -325,7 +325,7 @@
             {
                 var fakeMethod = FakeMethod
                     .CreateFor<int, int, int>((p1, p2, p3) => { })
-                    .AcceptOnly(n => n == 1, n => n == 2, n => n == 3);
+                    .Accept(n => n == 1, n => n == 2, n => n == 3);
 
                 fakeMethod.Invoke(2, 2, 3);
             }
@@ -336,7 +336,7 @@
             {
                 var fakeMethod = FakeMethod
                     .CreateFor<int, int, int>((p1, p2, p3) => { })
-                    .AcceptOnly(n => n == 1, n => n == 2, n => n == 3);
+                    .Accept(n => n == 1, n => n == 2, n => n == 3);
 
                 fakeMethod.Invoke(1, 1, 3);
             }
@@ -347,7 +347,7 @@
             {
                 var fakeMethod = FakeMethod
                     .CreateFor<int, int, int>((p1, p2, p3) => { })
-                    .AcceptOnly(n => n == 1, n => n == 2, n => n == 3);
+                    .Accept(n => n == 1, n => n == 2, n => n == 3);
 
                 fakeMethod.Invoke(1, 2, 2);
             }
@@ -356,7 +356,7 @@
             public void ShouldInvokeActionIfParametersMeetAcceptanceCondition()
             {
                 bool actionInvoked = false;
-                var fakeMethod = FakeMethod.CreateFor<int, int, int>((p1, p2, p3) => { actionInvoked = true; }).AcceptOnly(n => n == 1, n => n == 2, n => n == 3);
+                var fakeMethod = FakeMethod.CreateFor<int, int, int>((p1, p2, p3) => { actionInvoked = true; }).Accept(n => n == 1, n => n == 2, n => n == 3);
 
                 fakeMethod.Invoke(1, 2, 3);
 

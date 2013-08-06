@@ -2,15 +2,9 @@
 {
     using System;
 
-    using FakeWin8.Conditions;
-    using FakeWin8.Exceptions;
-    using FakeWin8.Properties;
-
     public class FakeAction<T1, T2, T3> : FakeMethodBase<T1, T2, T3>
     {
         private readonly Action<T1, T2, T3> action;
-
-        private ParametersCondition<T1, T2, T3> parametersCondition;
 
         public FakeAction(Action<T1, T2, T3> action)
         {
@@ -24,12 +18,12 @@
             this.action.Invoke(param1, param2, param3);
         }
 
-        public FakeAction<T1, T2, T3> AcceptOnly(
+        public FakeAction<T1, T2, T3> Accept(
             Func<T1, bool> param1Predicate,
             Func<T2, bool> param2Predicate,
             Func<T3, bool> param3Predicate)
         {
-            this.AcceptOnlyInternal(param1Predicate, param2Predicate, param3Predicate);
+            this.AcceptInternal(param1Predicate, param2Predicate, param3Predicate);
             return this;
         }
     }
