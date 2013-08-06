@@ -18,9 +18,9 @@
             return this.function.Invoke(param1);
         }
 
-        public FakeFunc<T1, TResult> AcceptOnly(Func<T1, bool> param1Condition)
+        public FakeFunc<T1, TResult> Accept(Func<T1, bool> param1Condition)
         {
-            this.AcceptOnlyInternal(param1Condition);
+            this.AcceptInternal(param1Condition);
             return this;
         }
     }

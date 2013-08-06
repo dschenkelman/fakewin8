@@ -24,7 +24,6 @@ public interface INavigationService
     void GoBack();
 }
 ```
-
 The following fake class should be created (and only this class should be required):
 ```CSharp
 public class FakeNavigationService : INavigationService
@@ -44,7 +43,6 @@ public class FakeNavigationService : INavigationService
     }
 }
 ```
-
 The `FakeAction` and `FakeFunc` classes (at the moment they support until up to 3 parameters) can be leveraged like this in your unit tests:
 ```CSharp
 // arrange
@@ -56,7 +54,6 @@ this.fakeNavigationService.NavigateAction = FakeMethod.CreateFor<string>(view =>
 Assert.AreEqual(1, this.fakeNavigationService.NavigateAction.NumberOfInvocations);
 Assert.AreEqual("ViewName", this.fakeNavigationService.NavigateAction.Invocations.ElementAt(0).FirstParameter);
 ```
-
 Additionally, given the path to an assembly and an output directory, you can automatically generate the fake classes.
 ```Shell
 FakeWin8.Generator.Console.exe <dllPath> <outputDir>
@@ -67,8 +64,14 @@ Configure Fake Methods
 You can configure methods to only allow invocations that match a certain set of constraints based on its parameters. If an invocation does not match a specified constraint an `InvalidInvocationException` is thrown.
 To specify constraints for a parameter of type `T`, a predicate of type `Func<T, bool>` must be used. For example:
 ```CSharp
-var fakeMethod = FakeMethod.CreateFor<int, int>(p => p).AcceptOnly(n => n == 2);
+var fakeMethod = FakeMethod.CreateFor<int, int>(p => p).Accept(n => n == 2);
 
 // next line throws InvalidInvocationException
 fakeMethod.Invoke(3);
+```
+If any value is valid for a particular parameter, you can express that through `Any<T>.IsOK()`:
+```CSharp
+var fakeMethod = FakeMethod.CreateFor<string, string>(p => p).Accept(Any<string>.IsOK());
+
+fakeMethod.Invoke("I can pass any value here and no error will be thrown.");
 ```

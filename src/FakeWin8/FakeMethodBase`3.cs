@@ -39,7 +39,7 @@
             this.invocations.Add(this.CreateInvocation(param1, param2, param3));
         }
 
-        protected void AcceptOnlyInternal(
+        protected void AcceptInternal(
             Func<T1, bool> param1Predicate,
             Func<T2, bool> param2Predicate,
             Func<T3, bool> param3Predicate)

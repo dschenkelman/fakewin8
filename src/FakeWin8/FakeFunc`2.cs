@@ -18,9 +18,9 @@
             return this.function.Invoke(param1, param2);
         }
 
-        public FakeFunc<T1, T2, TResult> AcceptOnly(Func<T1, bool> param1Predicate, Func<T2, bool> param2Predicate)
+        public FakeFunc<T1, T2, TResult> Accept(Func<T1, bool> param1Predicate, Func<T2, bool> param2Predicate)
         {
-            this.AcceptOnlyInternal(param1Predicate, param2Predicate);
+            this.AcceptInternal(param1Predicate, param2Predicate);
 
             return this;
         }

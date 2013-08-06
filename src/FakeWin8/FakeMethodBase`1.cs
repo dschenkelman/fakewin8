@@ -27,7 +27,7 @@
             }
         }
 
-        protected void AcceptOnlyInternal(Func<T1, bool> param1Condition)
+        protected void AcceptInternal(Func<T1, bool> param1Condition)
         {
             this.parametersCondition = new ParametersCondition<T1>(param1Condition);
         }

@@ -40,6 +40,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Conditions\Any.cs" />
     <Compile Include="Conditions\ParametersCondition`3.cs" />
     <Compile Include="Conditions\ParametersCondition`2.cs" />
     <Compile Include="Conditions\ParametersCondition`1.cs" />

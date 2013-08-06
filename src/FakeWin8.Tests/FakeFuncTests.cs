@@ -3,6 +3,7 @@
     using System;
     using System.Linq;
 
+    using FakeWin8.Conditions;
     using FakeWin8.Exceptions;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -142,7 +143,7 @@
             [ExpectedException(typeof(InvalidInvocationException))]
             public void ShouldThrowExceptionWhenInvocationDoesNotMeetAcceptedConditionValues()
             {
-                var fakeMethod = FakeMethod.CreateFor<int, int>(p => p).AcceptOnly(n => n == 2);
+                var fakeMethod = FakeMethod.CreateFor<int, int>(p => p).Accept(n => n == 2);
 
                 fakeMethod.Invoke(3);
             }
@@ -156,7 +157,7 @@
                     {
                         invoked = true;
                         return p;
-                    }).AcceptOnly(n => n == 2);
+                    }).Accept(n => n == 2);
 
                 fakeMethod.Invoke(2);
 
@@ -265,7 +266,7 @@
             public void ShouldThrowExceptionWhenInvocationDoesNotMeetAcceptedConditionDueToFirstParameter()
             {
                 var fakeMethod = FakeMethod.CreateFor<int, int, int>((p1, p2) => p1 + p2)
-                    .AcceptOnly(n => n == 1, n => n == 2);
+                    .Accept(n => n == 1, n => n == 2);
 
                 fakeMethod.Invoke(2, 2);
             }
@@ -276,7 +277,7 @@
             {
                 var fakeMethod =
                     FakeMethod.CreateFor<int, int, int>((p1, p2) => p1 + p2)
-                              .AcceptOnly(n => n == 1, n => n == 2);
+                              .Accept(n => n == 1, n => n == 2);
 
                 fakeMethod.Invoke(1, 1);
             }
@@ -290,7 +291,7 @@
                         {
                             actionInvoked = true;
                             return p1 + p2;
-                        }).AcceptOnly(n => n == 1, n => n == 2);
+                        }).Accept(n => n == 1, n => n == 2);
 
                 fakeMethod.Invoke(1, 2);
 
@@ -410,7 +411,7 @@
             public void ShouldThrowExceptionWhenInvocationDoesNotMeetAcceptedConditionDueToFirstParameter()
             {
                 var fakeMethod = FakeMethod.CreateFor<int, int, int, int>((p1, p2, p3) => p1 + p2 + p3)
-                    .AcceptOnly(n => n == 1, n => n == 2, n => n == 3);
+                    .Accept(n => n == 1, n => n == 2, n => n == 3);
 
                 fakeMethod.Invoke(2, 2, 3);
             }
@@ -420,7 +421,7 @@
             public void ShouldThrowExceptionWhenInvocationDoesNotMeetAcceptanceConditionDueToSecondParameter()
             {
                 var fakeMethod = FakeMethod.CreateFor<int, int, int, int>((p1, p2, p3) => p1 + p2 + p3)
-                    .AcceptOnly(n => n == 1, n => n == 2, n => n == 3);
+                    .Accept(n => n == 1, n => n == 2, n => n == 3);
 
                 fakeMethod.Invoke(1, 1, 3);
             }
@@ -430,7 +431,7 @@
             public void ShouldThrowExceptionWhenInvocationDoesNotMeetAcceptanceConditionDueToThirdParameter()
             {
                 var fakeMethod = FakeMethod.CreateFor<int, int, int, int>((p1, p2, p3) => p1 + p2 + p3)
-                    .AcceptOnly(n => n == 1, n => n == 2, n => n == 3);
+                    .Accept(n => n == 1, n => n == 2, n => n == 3);
 
                 fakeMethod.Invoke(1, 2, 2);
             }
@@ -444,7 +445,7 @@
                         {
                             actionInvoked = true;
                             return p1 + p2 + p3;
-                        }).AcceptOnly(n => n == 1, n => n == 2, n => n == 3);
+                        }).Accept(n => n == 1, n => n == 2, n => n == 3);
 
                 Assert.AreEqual(6, fakeMethod.Invoke(1, 2, 3));
 
