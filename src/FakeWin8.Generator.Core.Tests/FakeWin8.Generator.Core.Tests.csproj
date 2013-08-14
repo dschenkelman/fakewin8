@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="AliasMappingsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TypeExplorerTests.cs" />
     <Compile Include="TypeGeneratorTests.cs" />
   </ItemGroup>
   <ItemGroup>
