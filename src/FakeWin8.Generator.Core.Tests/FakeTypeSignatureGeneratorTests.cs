@@ -5,6 +5,14 @@
     [TestClass]
     public class FakeTypeSignatureGeneratorTests
     {
+        private interface IInterface
+        {
+        }
+
+        private abstract class AbstractClass
+        {
+        }
+
         [TestMethod]
         public void ShouldGenerateFakeTypeSignatureForInterfaceFake()
         {
@@ -23,14 +31,6 @@
             var signature = generator.Generate();
 
             Assert.AreEqual("public class FakeAbstractClass : AbstractClass", signature);
-        }
-
-        private interface IInterface
-        {
-        }
-
-        private abstract class AbstractClass 
-        {
         }
     }
 }

@@ -10,6 +10,21 @@
     [TestClass]
     public class FakeMethodPropertyGeneratorTests
     {
+        private interface IHelper
+        {
+            void NoParametersReturnsVoid();
+
+            void OneSimpleParameterReturnsVoid(int p1);
+
+            void ThreeGenericParametersReturnsVoid(IEnumerable<int> p1, Task<double> p2, Tuple<char, string> p3);
+
+            int NoParametersReturnsInt();
+
+            string OneSimpleParameterReturnsString(int p1);
+
+            Tuple<Task<string>, double> ThreeGenericParametersReturnsGeneric(IEnumerable<int> p1, Task<double> p2, Tuple<char, string> p3);
+        }
+
         [TestMethod]
         public void ShouldGeneratePropertyForMethodReturningVoidAndReceivingNoParameters()
         {
@@ -74,21 +89,6 @@
             var generator = new FakeMethodPropertyGenerator(method);
 
             Assert.AreEqual(string.Format("public FakeFunc<IEnumerable<int>, Task<double>, Tuple<char, string>, Tuple<Task<string>, double>> {0}Func {{ get; set; }}", MethodName), generator.Generate());
-        }
-
-        private interface IHelper
-        {
-            void NoParametersReturnsVoid();
-
-            void OneSimpleParameterReturnsVoid(int p1);
-            
-            void ThreeGenericParametersReturnsVoid(IEnumerable<int> p1, Task<double> p2, Tuple<char, string> p3);
-
-            int NoParametersReturnsInt();
-
-            string OneSimpleParameterReturnsString(int p1);
-
-            Tuple<Task<string>, double> ThreeGenericParametersReturnsGeneric(IEnumerable<int> p1, Task<double> p2, Tuple<char, string> p3);
         }
     }
 }

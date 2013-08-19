@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="AliasMappingsTests.cs" />
     <Compile Include="AssemblyExplorerTests.cs" />
+    <Compile Include="FakeMethodImplementationGeneratorTests.cs" />
     <Compile Include="FakeMethodPropertyGeneratorTests.cs" />
     <Compile Include="FakeTypeSignatureGeneratorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

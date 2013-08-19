@@ -54,7 +54,7 @@
             builder.Append(methodKind);
             builder.Append(".Invoke(");
 
-            builder.Append(string.Join(",", parameters.Select(p => p.Name).ToArray()));
+            builder.Append(string.Join(", ", parameters.Select(p => p.Name).ToArray()));
 
             builder.Append(");");
             builder.Append(Environment.NewLine);
