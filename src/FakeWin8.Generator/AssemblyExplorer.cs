@@ -3,20 +3,19 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Reflection;
 
     public class AssemblyExplorer
     {
-        private readonly Assembly assembly;
+        private readonly IEnumerable<Type> assemblyTypes;
 
-        public AssemblyExplorer(Assembly assembly)
+        public AssemblyExplorer(IEnumerable<Type> assemblyTypes)
         {
-            this.assembly = assembly;
+            this.assemblyTypes = assemblyTypes;
         }
 
         public IEnumerable<Type> GetFakeableTypes()
         {
-            return this.assembly.GetTypes().Where(t => t.IsAbstract || t.IsInterface);
+            return this.assemblyTypes.Where(t => t.IsAbstract || t.IsInterface);
         }
     }
 }
