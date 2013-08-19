@@ -34,7 +34,7 @@
 
             Assembly assembly = Assembly.LoadFrom(dllPath);
 
-            var types = new AssemblyExplorer(assembly).GetFakeableTypes();
+            var types = new AssemblyExplorer(assembly.GetTypes()).GetFakeableTypes();
 
             foreach (var type in types)
             {
