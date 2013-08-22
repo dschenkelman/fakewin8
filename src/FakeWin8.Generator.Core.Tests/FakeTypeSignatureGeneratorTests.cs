@@ -3,40 +3,9 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class FakeTypeSignatureGeneratorTests
+    public partial class FakeTypeSignatureGeneratorTests
     {
-        private interface IInterface
-        {
-        }
-
-        private interface IGenericInterface<T>
-        {
-        }
-
-        private interface IGenericInterfaceWithDefaultConstructorConstraint<T> where T : new()
-        {
-        }
-
-        private interface IGenericInterfaceWithClassConstraint<T> where T : class
-        {
-        }
-
-        private interface IGenericInterfaceWithStructConstraint<T> where T : struct
-        {
-        }
-
-        private interface IGenericInterfaceWithOtherArgumentConstraint<T, U> where T : U
-        {
-        }
-
-        private abstract class AbstractClass
-        {
-        }
-        
-        private abstract class AbstractGenericClass<T>
-        {
-        }
-
+     
         [TestMethod]
         public void ShouldGenerateFakeTypeSignatureForInterfaceFake()
         {
@@ -88,13 +57,13 @@
         }
 
         [TestMethod]
-        public void ShouldGenerateFakeTypeSignatureForGenericInterfaceWithClassTypeConstraint()
+        public void ShouldGenerateFakeTypeSignatureForGenericInterfaceWithReferenceTypeConstraint()
         {
-            var generator = new FakeTypeSignatureGenerator(typeof(IGenericInterfaceWithClassConstraint<>));
+            var generator = new FakeTypeSignatureGenerator(typeof(IGenericInterfaceWithReferenceConstraint<>));
 
             var signature = generator.Generate();
 
-            Assert.AreEqual("public class FakeGenericInterfaceWithClassConstraint<T> : IGenericInterfaceWithClassConstraint<T> where T : class", signature);
+            Assert.AreEqual("public class FakeGenericInterfaceWithReferenceConstraint<T> : IGenericInterfaceWithReferenceConstraint<T> where T : class", signature);
         }
 
         [TestMethod]
@@ -115,6 +84,36 @@
             var signature = generator.Generate();
 
             Assert.AreEqual("public class FakeGenericInterfaceWithOtherArgumentConstraint<T, U> : IGenericInterfaceWithOtherArgumentConstraint<T, U> where T : U", signature);
+        }
+
+        [TestMethod]
+        public void ShouldGenerateFakeTypeSignatureForGenericInterfaceWithInterfaceTypeConstraint()
+        {
+            var generator = new FakeTypeSignatureGenerator(typeof(IGenericInterfaceWithInterfaceConstraint<>));
+
+            var signature = generator.Generate();
+
+            Assert.AreEqual("public class FakeGenericInterfaceWithInterfaceConstraint<T> : IGenericInterfaceWithInterfaceConstraint<T> where T : IInterface", signature);
+        }
+
+        [TestMethod]
+        public void ShouldGenerateFakeTypeSignatureForGenericInterfaceWithClassTypeConstraint()
+        {
+            var generator = new FakeTypeSignatureGenerator(typeof(IGenericInterfaceWithClassConstraint<>));
+
+            var signature = generator.Generate();
+
+            Assert.AreEqual("public class FakeGenericInterfaceWithClassConstraint<T> : IGenericInterfaceWithClassConstraint<T> where T : AbstractClass", signature);
+        }
+
+        [TestMethod]
+        public void ShouldGenerateFakeTypeSignatureForGenericInterfaceWithMultipleConstraints()
+        {
+            var generator = new FakeTypeSignatureGenerator(typeof(IGenericInterfaceWithMultipleConstraints<,,,>));
+
+            var signature = generator.Generate();
+
+            Assert.AreEqual("public class FakeGenericInterfaceWithMultipleConstraints<T, U, V, W> : IGenericInterfaceWithMultipleConstraints<T, U, V, W> where T : class, IInterface, W, new() where U : struct, V", signature);
         }
     }
 }

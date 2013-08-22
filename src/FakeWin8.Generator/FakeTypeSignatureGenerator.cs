@@ -4,11 +4,10 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using System.Text;
 
     public class FakeTypeSignatureGenerator
     {
-        private const string ParameterConstraintFormat = "where {0} : {1}";
-
         private readonly Type type;
 
         public FakeTypeSignatureGenerator(Type type)
@@ -33,62 +32,69 @@
 
             trimmedName = GetFakeTypeName(this.type, trimmedName);
 
-            var constraints = this.GetConstraints();
-
             var signature = string.Format("public class Fake{0} : {1}", trimmedName, typeGenerator.Generate());
 
-            if (constraints.Count != 0)
+            var contraints = this.GetTypeConstraints();
+
+            if (!string.IsNullOrEmpty(contraints))
             {
-                signature += " " + string.Join(",", constraints.ToArray());
+                signature += " " + contraints;
             }
 
             return signature;
         }
 
-        private List<string> GetConstraints()
+        private string GetTypeConstraints()
         {
-            var constraints = new List<string>();
+            var typeConstraints = new List<string>();
 
             foreach (var argument in this.type.GetGenericArguments())
             {
-                var genericArgumentName = argument.Name;
+                var builder = new StringBuilder();
+                var parameterConstraints = new List<string>();
 
-                string nonTypedConstraint = GetNonTypedConstraint(argument, genericArgumentName);
+                bool useClass = (argument.GenericParameterAttributes & GenericParameterAttributes.ReferenceTypeConstraint) != 0;
+                bool useStruct = (argument.GenericParameterAttributes & GenericParameterAttributes.NotNullableValueTypeConstraint) != 0;
+                bool useNew = (argument.GenericParameterAttributes & GenericParameterAttributes.DefaultConstructorConstraint) != 0;
 
-                if (nonTypedConstraint != null)
+                // the order is important. in regex form (class|struct)?(types)*(new())?
+                if (useClass)
                 {
-                    constraints.Add(nonTypedConstraint);
+                    parameterConstraints.Add("class");
                 }
 
-                constraints.AddRange(argument
-                    .GetGenericParameterConstraints().Where(t => t.Name != "ValueType")
-                    .Select(constraintType => string.Format(
-                        ParameterConstraintFormat, 
-                        genericArgumentName, 
-                        new TypeGenerator(constraintType).Generate())));
+                if (useStruct)
+                {
+                    parameterConstraints.Add("struct");
+                }
+
+                parameterConstraints.AddRange(
+                    argument.GetGenericParameterConstraints()
+                            .Where(t => t.Name != "ValueType")
+                            .Select(constraintType => new TypeGenerator(constraintType).Generate()));
+
+                if (useNew && !useStruct)
+                {
+                    parameterConstraints.Add("new()");
+                }
+
+                if (parameterConstraints.Count == 0)
+                {
+                    continue;
+                }
+
+                builder.Append("where ");
+
+                builder.Append(argument.Name);
+
+                builder.Append(" : ");
+
+                builder.Append(string.Join(", ", parameterConstraints.ToArray()));
+
+                typeConstraints.Add(builder.ToString());
             }
 
-            return constraints;
-        }
-
-        private static string GetNonTypedConstraint(Type argument, string genericArgumentName)
-        {
-            if ((argument.GenericParameterAttributes & GenericParameterAttributes.ReferenceTypeConstraint) != 0)
-            {
-                return string.Format(ParameterConstraintFormat, genericArgumentName, "class");
-            }
-            
-            if ((argument.GenericParameterAttributes & GenericParameterAttributes.NotNullableValueTypeConstraint) != 0)
-            {
-                return string.Format(ParameterConstraintFormat, genericArgumentName, "struct");
-            }
-            
-            if ((argument.GenericParameterAttributes & GenericParameterAttributes.DefaultConstructorConstraint) != 0)
-            {
-                return string.Format(ParameterConstraintFormat, genericArgumentName, "new()");
-            }
-
-            return null;
+            return string.Join(" ", typeConstraints.ToArray());
         }
     }
 }
