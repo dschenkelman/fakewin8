@@ -51,8 +51,13 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AnyTests.cs" />
-    <Compile Include="FakeActionTests.cs" />
-    <Compile Include="FakeFuncTests.cs" />
+    <Compile Include="FakeActionTests.NoParameters.cs" />
+    <Compile Include="FakeActionTests.ThreeParameters.cs" />
+    <Compile Include="FakeActionTests.TwoParameters.cs" />
+    <Compile Include="FakeFuncTests.NoParameters.cs" />
+    <Compile Include="FakeFuncTests.OneParameter.cs" />
+    <Compile Include="FakeFuncTests.ThreeParameters.cs" />
+    <Compile Include="FakeFuncTests.TwoParameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -60,6 +65,9 @@
       <Project>{BDC1B149-21FE-4025-B070-BA1CE432FBD2}</Project>
       <Name>FakeWin8</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FakeActionTests.OneParameter.cs" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
