@@ -3,7 +3,7 @@
 open Xunit
 open FsUnit.Xunit
 open System
-open FakeWin8.Generator
+open FakeWin8.Generator.Core
 open FakeWin8.Generator.Tests.Helpers
 
 [<Fact>] 

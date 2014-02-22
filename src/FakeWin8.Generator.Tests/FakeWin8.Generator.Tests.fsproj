@@ -74,6 +74,7 @@
     <None Include="app.config" />
     <Compile Include="GetFakeableMethodsTests.fs" />
     <Compile Include="GetFakeableTypesTests.fs" />
+    <Compile Include="FakeTypeSignatureGenerationTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FakeWin8.Generator.Tests.Helpers\FakeWin8.Generator.Tests.Helpers.csproj">

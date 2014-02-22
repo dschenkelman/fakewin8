@@ -3,7 +3,7 @@
 open Xunit
 open FsUnit.Xunit
 open System
-open FakeWin8.Generator
+open FakeWin8.Generator.Core
 
 [<Fact>] 
 let ``should map type to correct string.`` () =
@@ -25,5 +25,5 @@ let ``should map type to correct string.`` () =
     aliasFor typeof<Void> |> should equal "void"
 
 [<Fact>] 
-let ``should throw if type is not aliased type.`` () =
-    (fun () -> (aliasFor typeof<IDisposable>) |> ignore) |> should throw typeof<System.ArgumentException>
+let ``should return type name if type is not aliased type.`` () =
+    aliasFor typeof<IDisposable> |> should equal "IDisposable"
