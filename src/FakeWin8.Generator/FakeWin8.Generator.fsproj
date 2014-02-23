@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Utils.fs" />
+    <Compile Include="GenericArgument.fs" />
     <Compile Include="Functions.fs" />
   </ItemGroup>
   <PropertyGroup>

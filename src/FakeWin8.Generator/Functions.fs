@@ -4,6 +4,7 @@ open System
 open System.Text.RegularExpressions
 open System.Reflection
 open FakeWin8.Generator.Utils
+open FakeWin8.Generator.GenericArgument
 
 let aliasFor t = 
     match t with
@@ -39,33 +40,10 @@ let rec private friendlyString(t:Type) =
                 |> String.concat String.Empty)
     | false -> t |> aliasFor
 
-let rec private parameterConstraints(p: Type) =
-    let hasFlag = p.GenericParameterAttributes.HasFlag
-    let useNew = hasFlag GenericParameterAttributes.DefaultConstructorConstraint
-    let useClass = hasFlag GenericParameterAttributes.ReferenceTypeConstraint
-    let useStruct = hasFlag GenericParameterAttributes.NotNullableValueTypeConstraint
-    let genericConstraints = p.GetGenericParameterConstraints() |> Array.filter (fun param -> param.Name <> "ValueType")
-
-    // the order is important. in regex form (class|struct)?(types)*(new())?
-    let constraints = [
-        (useStruct, "struct")
-        (useClass, "class")
-        (genericConstraints.Length <> 0, genericConstraints |> Array.map (fun c -> c.Name) |> String.concat ", ")
-        (useNew && not useStruct, "new()")]
-                        |> List.filter (fun i -> match i with
-                                                    | (a, b) -> a)
-                        |> List.map (fun i -> match i with
-                                                    | (true, b) -> b
-                                                    | (false, _) -> String.Empty)
-                        |> String.concat ", "
-    if not(String.IsNullOrEmpty constraints)
-        then (sprintf "where %s : %s" p.Name constraints) 
-        else String.Empty
-
-let rec private typeConstraints(t:Type) =
+let private typeConstraints(t:Type) =
     t.GetGenericArguments() 
-    |> Array.map parameterConstraints
-    |> concatNonEmpty " " 
+    |> Array.map (fun a -> GenericArgument(a).constraintsAsString())
+    |> concatNonEmpty " "
 
 let private trimName (friendly:String) (t:Type) =
     match t.IsInterface && t.Name.StartsWith("I") && t.Name.Length > 1 with 
