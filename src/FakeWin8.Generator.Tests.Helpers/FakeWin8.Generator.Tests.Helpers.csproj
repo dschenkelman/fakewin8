@@ -50,6 +50,7 @@
     <Compile Include="IGenericInterfaceWithOtherArgumentConstraint.cs" />
     <Compile Include="IGenericInterfaceWithReferenceConstraint.cs" />
     <Compile Include="IGenericInterfaceWithStructConstraint.cs" />
+    <Compile Include="IHelper.cs" />
     <Compile Include="IInterface.cs" />
     <Compile Include="Implementation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

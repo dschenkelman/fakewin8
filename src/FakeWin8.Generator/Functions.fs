@@ -13,10 +13,10 @@ let aliasFor t =
         | t when t = typeof<SByte>   -> "sbyte" 
         | t when t = typeof<Char>    ->"char" 
         | t when t = typeof<Decimal> -> "decimal" 
-        | t when t = typeof<Double>  -> "string" 
+        | t when t = typeof<Double>  -> "double" 
         | t when t = typeof<Single>  -> "float" 
         | t when t = typeof<Int32>   ->"int" 
-        | t when t = typeof<UInt32>  -> "uint32" 
+        | t when t = typeof<UInt32>  -> "uint" 
         | t when t = typeof<Int64>   ->"long" 
         | t when t = typeof<UInt64>  -> "ulong" 
         | t when t = typeof<Object>  -> "object" 
@@ -36,13 +36,15 @@ let rec private friendlyString(t:Type) =
     match t.IsGenericType with
     | true -> Regex.Replace(t.Name, 
                 "`[0-9]+", 
-                ["<";t.GetGenericArguments() |> Array.map friendlyString |> String.concat ", ";">" ] 
-                |> String.concat String.Empty)
+                [
+                    "<"
+                    t.GetGenericArguments() |> Array.map friendlyString |> String.concat ", "
+                    ">"] |> String.concat String.Empty)
     | false -> t |> aliasFor
 
 let private typeConstraints(t:Type) =
     t.GetGenericArguments() 
-    |> Array.map (fun a -> GenericArgument(a).constraintsAsString())
+    |> Array.map (fun a -> GenericArgument(a).ConstraintsString())
     |> concatNonEmpty " "
 
 let private trimName (friendly:String) (t:Type) =
@@ -59,3 +61,20 @@ let generateFakeSignature (t:Type) =
         typeConstraints t
     ]
     |> concatNonEmpty " "
+
+let generateFakeProperty (methodInfo:MethodInfo) =
+    let returnType = methodInfo.ReturnType
+    let returnsVoid = returnType = typeof<Void>
+    let delegateType = if returnsVoid then "Action" else "Func"
+
+    let returnArray = (if returnsVoid then [|String.Empty|] else [| friendlyString returnType |]) 
+
+    let paramsString = 
+        Array.append (methodInfo.GetParameters() 
+                        |> Array.map (fun p -> friendlyString p.ParameterType)) returnArray
+        |> concatNonEmpty ", "
+
+    let delegateParams = 
+        if String.IsNullOrEmpty paramsString then String.Empty else sprintf "<%s>" paramsString
+
+    sprintf "public Fake%s%s %s%s { get; set; }" delegateType delegateParams methodInfo.Name delegateType
